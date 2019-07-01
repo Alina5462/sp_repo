@@ -5,8 +5,8 @@ spring:
     host: 192.168.92.133
     port: 5672
     username: admin
-    password: admin
-    
+    password: admin  
+
 server:
   port: 3001
   
@@ -14,28 +14,20 @@ eureka:
   client:
     service-url:
       defaultZone: http://eureka1:2001/eureka, http://eureka2:2002/eureka
-      
-#默认配置信息
-#映射路径
-#zuul:
- # routes:
-  #  item-service: /item-service/**
-  #  user-service: /user-service/**
-  #  order-service: /order-service/**
+  instance:
 
-#开启重试 
+    prefer-ip-address: true
+
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}
 zuul:
   retryable: true
-
-#默认配置 ,可以不加
+    
 ribbon:
   ConnectTimeout: 1000
-  ReadTimeout: 1000
+  ReadTimeout: 2000
   MaxAutoRetriesNextServer: 1
   MaxAutoRetries: 1
   
-  
-#默认可以不配置  
 hystrix:
   command:
     default:
@@ -43,9 +35,6 @@ hystrix:
         isolation:
           thread:
             timeoutInMilliseconds: 500
-            
-            
-            
 management:
   endpoints:
     web:
